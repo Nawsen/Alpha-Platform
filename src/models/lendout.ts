@@ -1,17 +1,16 @@
-import {DateTime} from "ionic-angular";
-
 export class LendOut {
 
   $key: string;
   userId: string;
   itemId: string;
-  LendoutTime: Date;
-  checkInTime: Date;
+  checkOutTime: number;
+  checkInTime: number;
 
 
-  constructor(userId: string, itemId: string, LendoutTime: Date) {
+  constructor(userId: string, itemId: string, checkOutTime: number) {
     this.userId = userId;
     this.itemId = itemId;
-    this.LendoutTime = LendoutTime;
+    this.checkOutTime = checkOutTime;
   }
+
 }

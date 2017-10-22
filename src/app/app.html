@@ -4,7 +4,7 @@
       <br/>
       <ion-img width="249" height="110" src="assets/imgs/logo-wit-no-border.png"></ion-img>
       <ion-list>
-        <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <button ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
           <ion-icon name="{{p.icon}}"></ion-icon>
           <span style="margin-left: 5px;">{{p.title}}</span>
         </button>

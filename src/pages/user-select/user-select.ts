@@ -18,7 +18,8 @@ export class UserSelectPage {
   }
 
   select(user: User) {
-    const lendOut: LendOut = new LendOut(user.$key, this.item.$key, new Date());
+    const lendOut: LendOut = new LendOut(user.$key, this.item.$key, Date.now());
+
     this.lendoutProvider.addNewLendOut(lendOut);
     this.navCtrl.pop();
   }

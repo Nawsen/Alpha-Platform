@@ -42,7 +42,7 @@ export class LendingPage {
         {
           text: 'Check in',
           handler: () => {
-            lendOut.checkInTime = new Date();
+            lendOut.checkInTime = Date.now();
             this.lendOutProvider.editLendOut(lendOut);
           }
         }

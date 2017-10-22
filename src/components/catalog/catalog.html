@@ -6,7 +6,7 @@
   </ion-segment>
 </ion-toolbar>
 <ion-row>
-  <ion-col col-2 *ngFor="let item of items" no-padding>
+  <ion-col col-md-2 col-sm-4 *ngFor="let item of items" no-padding>
     <app-catalog-item [item]="item" (selectedEvent)="selected($event)"></app-catalog-item>
   </ion-col>
 </ion-row>
