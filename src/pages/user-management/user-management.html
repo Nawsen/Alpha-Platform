@@ -1,0 +1,20 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title><ion-icon name="people"></ion-icon><span style="margin-left: 5px;">User Management</span></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-fab right bottom>
+    <button ion-fab color="secondary" (click)="select()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+
+  <app-user-list (selectedEvent)="select($event)"></app-user-list>
+</ion-content>

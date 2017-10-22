@@ -1,0 +1,20 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <ion-icon name="pricetags"></ion-icon>
+      <span style="margin-left: 5px;">Item Management</span></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-fab right bottom>
+    <button ion-fab color="secondary" (click)="select()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+  <app-catalog (selectedEvent)="select($event)"></app-catalog>
+</ion-content>

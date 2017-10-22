@@ -1,0 +1,13 @@
+<ion-toolbar no-border-top>
+  <ion-segment color="primary" (ionChange)="changeCategory($event)" [(ngModel)]=selectedCategory>
+    <ion-segment-button *ngFor="let category of categories" value="{{category}}">
+      {{category}}
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+<ion-row>
+  <ion-col col-2 *ngFor="let item of items" no-padding>
+    <app-catalog-item [item]="item" (selectedEvent)="selected($event)"></app-catalog-item>
+  </ion-col>
+</ion-row>
+

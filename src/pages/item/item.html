@@ -1,0 +1,37 @@
+<!--
+  Generated template for the ItemPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>
+      <ion-icon name="pricetag"></ion-icon>
+      <span style="margin-left: 5px;">Item: {{item.name}}</span></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form (ngSubmit)="save()">
+    <ion-item>
+      <ion-label>Name: </ion-label>
+      <ion-input type="text" [(ngModel)]="item.name" name="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Category: </ion-label>
+      <ion-select [(ngModel)]="item.category" name="category" interface="action-sheet" dir="ltr">
+        <ion-option *ngFor="let category of categoryProvider.categories | async" value="{{category.name}}">{{category.name.toUpperCase()}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <br />
+    <button ion-button type="submit" block>Save</button>
+    <br/>
+    <button ion-button color="danger" type="button" (click)="remove()" *ngIf="item.$key" block>Delete</button>
+  </form>
+
+
+</ion-content>

@@ -1,0 +1,10 @@
+<!-- Generated template for the UserListComponent component -->
+<ion-list>
+  <ion-item *ngFor="let user of userProvider.users | async" (click)="select(user)">
+    <ion-avatar item-start>
+      <img src="assets/imgs/logo-zwart.png">
+    </ion-avatar>
+    <h2>{{user.name}}</h2>
+    <p>{{user.ssin}}</p>
+  </ion-item>
+</ion-list>
