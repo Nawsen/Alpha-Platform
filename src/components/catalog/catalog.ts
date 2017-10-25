@@ -1,6 +1,9 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {Item} from "../../models/item";
+import 'rxjs/add/operator/map'
 import {ItemProvider} from "../../providers/database/item";
+import {CategoryProvider} from "../../providers/database/category";
+import {Category} from "../../models/category";
 
 /**
  * Generated class for the CatalogComponent component.
@@ -14,16 +17,21 @@ import {ItemProvider} from "../../providers/database/item";
 })
 export class CatalogComponent {
 
-  categories: string[] = ["building", "communication"];
+  categories: Category[] = [];
 
-  selectedCategory: string = this.categories[0];
+  selectedCategory: string;
 
   items: Item[] = [];
 
   @Output() selectedEvent: EventEmitter<any> = new EventEmitter();
 
-  constructor(private item: ItemProvider) {
-    this.loadItemsFromCategory(this.selectedCategory);
+  constructor(private item: ItemProvider, private category: CategoryProvider) {
+    this.category.categories
+      .subscribe((categories: Category[]) => {
+      this.categories = categories;
+      this.selectedCategory = this.categories[0].name;
+      this.loadItemsFromCategory(this.selectedCategory);
+    });
   }
 
   changeCategory(tab) {

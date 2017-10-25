@@ -13,7 +13,7 @@ export class AuthProvider {
 
   signInWithNameAndPassword(name: string, password: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(name + "@dereede.be", password).then((data) => {
+      firebase.auth().signInWithEmailAndPassword(name + "@alpha.pla", password).then((data) => {
         resolve(data);
       }, (error) => {
         reject(error);

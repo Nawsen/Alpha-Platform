@@ -1,7 +1,7 @@
 <ion-toolbar no-border-top>
   <ion-segment color="primary" (ionChange)="changeCategory($event)" [(ngModel)]=selectedCategory>
-    <ion-segment-button *ngFor="let category of categories" value="{{category}}">
-      {{category}}
+    <ion-segment-button *ngFor="let category of categories" value="{{category.name}}">
+      {{category.name}}
     </ion-segment-button>
   </ion-segment>
 </ion-toolbar>

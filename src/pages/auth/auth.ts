@@ -18,8 +18,8 @@ export class AuthPage {
               private formBuilder: FormBuilder,
               private auth: AuthProvider) {
     this.form = this.formBuilder.group({
-      email: ['wannes', Validators.required],
-      password: ['test123', Validators.required]
+      email: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 

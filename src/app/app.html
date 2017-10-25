@@ -1,5 +1,5 @@
 <ion-split-pane>
-  <ion-menu [content]="content">
+  <ion-menu [content]="content" *ngIf="enableSideMenu">
     <ion-content>
       <br/>
       <ion-img width="249" height="110" src="assets/imgs/logo-wit-no-border.png"></ion-img>
@@ -8,6 +8,7 @@
           <ion-icon name="{{p.icon}}"></ion-icon>
           <span style="margin-left: 5px;">{{p.title}}</span>
         </button>
+        <button ion-item (click)="logout()"><ion-icon name="log-out"></ion-icon><span style="margin-left: 5px;">Logout</span></button>
       </ion-list>
     </ion-content>
   </ion-menu>

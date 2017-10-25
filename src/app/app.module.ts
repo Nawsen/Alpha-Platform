@@ -23,6 +23,8 @@ import {CategoryProvider} from "../providers/database/category";
 import {UserProvider} from "../providers/database/user";
 import {UserSelectPage} from "../pages/user-select/user-select";
 import {LendOutProvider} from "../providers/database/lendout";
+import {CategoryManagementPage} from "../pages/category-management/category-management";
+import {CategoryPage} from "../pages/category/category";
 
 var firebaseConfig = {
   apiKey: "AIzaSyD6--rws7Va0-tCWJMATEcvgTOvmBvLyoY",
@@ -40,8 +42,10 @@ var firebaseConfig = {
     LendingPage,
     ItemManagementPage,
     UserManagementPage,
+    CategoryManagementPage,
     ItemPage,
     UserPage,
+    CategoryPage,
     UserSelectPage,
   ],
   imports: [
@@ -61,8 +65,10 @@ var firebaseConfig = {
     LendingPage,
     ItemManagementPage,
     UserManagementPage,
+    CategoryManagementPage,
     ItemPage,
     UserPage,
+    CategoryPage,
     UserSelectPage,
   ],
   providers: [
