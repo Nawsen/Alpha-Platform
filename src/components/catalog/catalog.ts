@@ -19,7 +19,7 @@ export class CatalogComponent {
 
   categories: Category[] = [];
 
-  selectedCategory: string;
+  selectedCategory: string = "";
 
   items: Item[] = [];
 
@@ -28,10 +28,12 @@ export class CatalogComponent {
   constructor(private item: ItemProvider, private category: CategoryProvider) {
     this.category.categories
       .subscribe((categories: Category[]) => {
-      this.categories = categories;
-      this.selectedCategory = this.categories[0].name;
-      this.loadItemsFromCategory(this.selectedCategory);
-    });
+        this.categories = categories;
+        if (this.selectedCategory === "") {
+          this.selectedCategory = this.categories[0].name;
+        }
+        this.loadItemsFromCategory(this.selectedCategory);
+      });
   }
 
   changeCategory(tab) {

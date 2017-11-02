@@ -43,7 +43,7 @@
         <ion-avatar item-start>
           <img src="assets/imgs/logo-zwart.png">
         </ion-avatar>
-        <h2>{{findUser(lendOut.userId).name}}</h2>
+        <h2>{{findUser(lendOut.userId)?.name}}</h2>
         <p>Checked out: {{lendOut.checkOutTime | date:'medium'}}</p>
         <p *ngIf="lendOut.checkInTime">Checked in: {{lendOut.checkInTime | date:'medium'}}</p>
         <ion-avatar item-end>
