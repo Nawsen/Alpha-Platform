@@ -52,6 +52,11 @@ export class CatalogComponent {
           this.items.push(item);
         }
       }
+    });
+    this.items.sort((a, b): number => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0
     })
   }
 }
