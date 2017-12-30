@@ -1,26 +1,21 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+# Alpha-Platform
 
-## How to use this template
+A platform to manage people and inventory in a whole new way!
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
+## Technical
 
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
+This is a SAAS-solution with Ionic 3 & Angular as a frontend and Google Firebase as a backend.
+Ionic will support us to create native applications for all major mobile devices, ranging from phones to tablets.
+While still giving a great web experience.
+Google Firebase is used for: Hosting, security, file storage and data storage.
 
-### With the Ionic CLI:
+## Target
 
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
+This application strives to be the sole application needed to manage your crew and their check in & out times.
+While also giving you an overview of the items you have lended out to a crew-member and how many you have still left to lend out.
 
-```bash
-$ sudo npm install -g ionic cordova
-$ ionic start mySideMenu sidemenu
-```
+## Links
 
-Then, to run it, cd into `mySideMenu` and run:
+Live app: [https://platform.alphacrew.be/](https://platform.alphacrew.be/)
 
-```bash
-$ ionic cordova platform add ios
-$ ionic cordova run ios
-```
-
-Substitute ios for android if not on a Mac.
-
+Firebase dashboard: [https://console.firebase.google.com/project/alpha-e4ef9/overview](https://console.firebase.google.com/project/alpha-e4ef9/overview)
