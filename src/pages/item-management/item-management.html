@@ -16,5 +16,6 @@
   <ion-fab right bottom>
     <button ion-fab color="secondary" (click)="select()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
-  <app-catalog (selectedEvent)="select($event)"></app-catalog>
+  <ion-searchbar (ionInput)="setFilter($event)"></ion-searchbar>
+  <app-item-list *ngIf="itemList" (selectedEvent)="select($event)" [items]="itemList"></app-item-list>
 </ion-content>

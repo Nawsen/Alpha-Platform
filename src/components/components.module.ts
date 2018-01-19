@@ -1,22 +1,20 @@
 import {NgModule} from '@angular/core';
 import {IonicModule} from "ionic-angular";
-import {CatalogComponent} from './catalog/catalog';
-import {ItemComponent} from './item/item';
 import { UserListComponent } from './user-list/user-list';
+import { ItemListComponent } from './item-list/item-list';
+import { UserComponent } from './user/user';
 
 @NgModule({
   declarations: [
-    CatalogComponent,
-    ItemComponent,
     UserListComponent,
-    UserListComponent
+    ItemListComponent,
+    UserComponent
   ],
   imports: [IonicModule],
   exports: [
-    CatalogComponent,
-    ItemComponent,
     UserListComponent,
-    UserListComponent
+    ItemListComponent,
+    UserComponent
   ]
 })
 export class ComponentsModule {

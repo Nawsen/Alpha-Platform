@@ -5,15 +5,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import {AuthProvider} from "../providers/auth/auth";
-import {LendingPage} from "../pages/lending/lending";
 import {ItemManagementPage} from "../pages/item-management/item-management";
 import {UserManagementPage} from "../pages/user-management/user-management";
 import {AuthPage} from "../pages/auth/auth";
 import {CategoryManagementPage} from "../pages/category-management/category-management";
-import {CategoryProvider} from "../providers/database/category";
-import {ItemProvider} from "../providers/database/item";
-import {LendOutProvider} from "../providers/database/lendout";
-import {UserProvider} from "../providers/database/user";
 
 @Component({
   templateUrl: 'app.html'
@@ -32,17 +27,13 @@ export class MyApp {
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
               public auth: AuthProvider,
-              private menuController: MenuController,
-              private category: CategoryProvider,
-              private item: ItemProvider,
-              private lendout: LendOutProvider,
-              private user: UserProvider) {
+              private menuController: MenuController) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage, icon: 'home' },
-      { title: 'Lending', component: LendingPage, icon: 'repeat' },
+      // { title: 'Lending', component: LendingPage, icon: 'repeat' },
       { title: 'Item management', component: ItemManagementPage, icon: 'pricetags' },
       { title: 'User management', component: UserManagementPage, icon: 'people' },
       { title: 'Category management', component: CategoryManagementPage, icon: 'bookmark' }
@@ -66,11 +57,9 @@ export class MyApp {
           });
 
         } else {
-          console.log(user);
           this.app.getRootNav().setRoot(HomePage);
           this.enableSideMenu = true;
           this.menuController.open();
-          this.initAllLoaders();
         }
       })
     });
@@ -86,10 +75,4 @@ export class MyApp {
     this.auth.logout();
   }
 
-  private initAllLoaders() {
-    this.category.categories;
-    this.item.items;
-    this.lendout.lendOuts;
-    this.user.users;
-  }
 }

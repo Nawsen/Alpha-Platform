@@ -8,7 +8,6 @@ import {LendOut} from "../../models/lendout";
 import {UserProvider} from "../../providers/database/user";
 import {User} from "../../models/user";
 
-
 @Component({
   selector: 'page-item',
   templateUrl: 'item.html',

@@ -1,5 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {UserProvider} from "../../providers/database/user";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {User} from "../../models/user";
 
 @Component({
@@ -10,7 +9,9 @@ export class UserListComponent {
 
   @Output() selectedEvent = new EventEmitter();
 
-  constructor(public userProvider: UserProvider) {
+  @Input() users: User[];
+
+  constructor() {
   }
 
   select(user: User) {
