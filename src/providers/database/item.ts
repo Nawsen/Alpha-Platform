@@ -2,9 +2,8 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Injectable} from "@angular/core";
 import {Item} from "../../models/item";
 import {AuthProvider} from "../auth/auth";
-import {Subject} from "rxjs/Subject";
-import {ReplaySubject} from "rxjs/ReplaySubject";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class ItemProvider {
@@ -13,17 +12,25 @@ export class ItemProvider {
 
   filter: BehaviorSubject<string>;
 
-  items: Subject<Item[]> = new ReplaySubject(1);
+  private items: Observable<Item[]>;
 
   constructor(private auth: AuthProvider, private db: AngularFireDatabase) {
     //set the filter to nothing
     this.filter = new BehaviorSubject<string>('');
-    this.auth.user
+  }
+
+
+  get itemList(): Observable<Item[]> {
+    if (this.items) {
+      return this.items;
+    }
+    this.items = this.auth.user
       .map((user) => user.email.substring(0, user.email.indexOf('@')) + this.ITEMS)
       .map((itemsUrl: string) => this.ITEMS = itemsUrl)
       .flatMap(() => this.db.list(this.ITEMS))
       .combineLatest(this.filter, (items: Item[], filter: string) => this.doFilter(items, filter))
-      .subscribe(items => this.items.next(items));
+      .publishReplay().refCount();
+    return this.items;
   }
 
   public addNewItem(user: Item) {

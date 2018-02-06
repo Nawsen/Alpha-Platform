@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {LoadingController, NavController, NavParams} from 'ionic-angular';
-import {ItemPage} from "../item/item";
 import {ItemProvider} from "../../providers/database/item";
 import {Item} from "../../models/item";
 import "rxjs";
+import {ItemViewPage} from "../item-view/item-view";
 
 @Component({
   selector: 'page-item-management',
@@ -26,7 +26,7 @@ export class ItemManagementPage implements OnInit {
       content: 'Loading...'
     });
     loading.present();
-    this.itemService.items.subscribe((items: Item[]) => {
+    this.itemService.itemList.subscribe((items: Item[]) => {
       loading.dismiss();
       this.itemList = items;
     });
@@ -34,7 +34,7 @@ export class ItemManagementPage implements OnInit {
   }
 
   select(item) {
-    this.navCtrl.push(ItemPage, {item: item});
+    this.navCtrl.push(ItemViewPage, {item: item});
   }
 
   setFilter(event) {

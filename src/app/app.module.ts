@@ -21,10 +21,11 @@ import {ItemPage} from "../pages/item/item";
 import {UserPage} from "../pages/user/user";
 import {CategoryProvider} from "../providers/database/category";
 import {UserProvider} from "../providers/database/user";
-import {UserSelectPage} from "../pages/user-select/user-select";
 import {LendOutProvider} from "../providers/database/lendout";
 import {CategoryManagementPage} from "../pages/category-management/category-management";
 import {CategoryPage} from "../pages/category/category";
+import {ItemViewPage} from "../pages/item-view/item-view";
+import {Camera} from "@ionic-native/camera";
 
 var firebaseConfig = {
   apiKey: "AIzaSyD6--rws7Va0-tCWJMATEcvgTOvmBvLyoY",
@@ -46,7 +47,7 @@ var firebaseConfig = {
     ItemPage,
     UserPage,
     CategoryPage,
-    UserSelectPage,
+    ItemViewPage
   ],
   imports: [
     BrowserModule,
@@ -69,7 +70,7 @@ var firebaseConfig = {
     ItemPage,
     UserPage,
     CategoryPage,
-    UserSelectPage,
+    ItemViewPage,
   ],
   providers: [
     StatusBar,

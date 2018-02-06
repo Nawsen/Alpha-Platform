@@ -31,4 +31,8 @@ export class UserProvider {
   public deleteUser(user: User) {
     this.db.list(this.USERS).remove(user.$key);
   }
+
+  public findUserById(key: string) {
+    return this.db.object(this.USERS + '/' + key);
+  }
 }

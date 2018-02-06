@@ -3,21 +3,62 @@ import {Observable} from 'rxjs/Observable';
 import {Injectable} from "@angular/core";
 import {LendOut} from "../../models/lendout";
 import {AuthProvider} from "../auth/auth";
-import {Subject} from "rxjs/Subject";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class LendOutProvider {
 
-  LENDOUTS: string = '/lendOuts';
+  private LENDOUTS: string = '';
 
-  lendOuts: Observable<LendOut[]> = new Subject();
+  private lendOutsByUser: Observable<LendOut[]>;
+  private filterByUser: BehaviorSubject<string>;
+
+  private lendOutsByItem: Observable<LendOut[]>;
+  private filterByItem: BehaviorSubject<string>;
+
 
   constructor(private auth: AuthProvider, private db: AngularFireDatabase) {
-    this.auth.user.subscribe((user) => {
-      let userName = user.email.substring(0, user.email.indexOf('@'));
-      this.LENDOUTS = userName + this.LENDOUTS;
-      this.lendOuts = db.list(this.LENDOUTS);
-    })
+    this.filterByItem = new BehaviorSubject<string>('');
+    this.filterByUser = new BehaviorSubject<string>('');
+
+  }
+
+  public getLendoutsByItem(key: string) {
+    this.filterByItem.next(key);
+    if (this.lendOutsByItem) {
+      return this.lendOutsByItem;
+    }
+
+    this.lendOutsByItem = this.auth.user
+      .map((user) => user.email.substring(0, user.email.indexOf('@')) + "/lendOuts")
+      .map((itemsUrl: string) => this.LENDOUTS = itemsUrl)
+      .flatMap(() => this.db.list(this.LENDOUTS, {
+        query: {
+          orderByChild: 'itemId',
+          equalTo: this.filterByItem
+        }
+      }));
+
+    return this.lendOutsByItem;
+  }
+
+  public getLendoutsByUser(key: string) {
+    this.filterByUser.next(key);
+    if (this.lendOutsByUser) {
+      return this.lendOutsByUser;
+    }
+
+    this.lendOutsByUser = this.auth.user
+      .map((user) => user.email.substring(0, user.email.indexOf('@')) + "/lendOuts")
+      .map((itemsUrl: string) => this.LENDOUTS = itemsUrl)
+      .flatMap(() => this.db.list(this.LENDOUTS, {
+        query: {
+          orderByChild: 'userId',
+          equalTo: this.filterByUser
+        }
+      }));
+
+    return this.lendOutsByUser;
   }
 
   public addNewLendOut(lendOut: LendOut) {

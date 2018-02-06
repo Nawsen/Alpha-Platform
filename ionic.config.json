@@ -1,6 +1,6 @@
 {
   "name": "Alpha",
-  "app_id": "",
+  "app_id": "be.wannesvandorpe.alpha",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}

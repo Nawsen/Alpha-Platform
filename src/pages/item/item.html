@@ -1,9 +1,3 @@
-<!--
-  Generated template for the ItemPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
@@ -29,29 +23,13 @@
         </ion-option>
       </ion-select>
     </ion-item>
+    <ion-item>
+      <ion-label>Barcode:</ion-label>
+      <ion-input type="text" [(ngModel)]="item.barcode" name="barcode"></ion-input>
+    </ion-item>
     <br/>
     <button ion-button type="submit" block>Save</button>
     <br/>
     <button ion-button color="danger" type="button" (click)="remove()" *ngIf="item.$key" block>Delete</button>
   </form>
-
-
-  <div margin-top *ngIf="history.length > 0">
-    <h2>History</h2>
-    <ion-list>
-      <ion-item *ngFor="let lendOut of history">
-        <ion-avatar item-start>
-          <img src="assets/imgs/logo-zwart.png">
-        </ion-avatar>
-        <h2>{{findUser(lendOut.userId)?.name}}</h2>
-        <p>Checked out: {{lendOut.checkOutTime | date:'medium'}}</p>
-        <p *ngIf="lendOut.checkInTime">Checked in: {{lendOut.checkInTime | date:'medium'}}</p>
-        <ion-avatar item-end>
-          <img *ngIf="lendOut.checkInTime" src="assets/imgs/ok.png">
-          <img *ngIf="!lendOut.checkInTime" src="assets/imgs/nok.png">
-        </ion-avatar>
-      </ion-item>
-    </ion-list>
-  </div>
-
 </ion-content>

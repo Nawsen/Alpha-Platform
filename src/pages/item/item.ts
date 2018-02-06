@@ -3,10 +3,7 @@ import {NavController, NavParams} from 'ionic-angular';
 import {Item} from "../../models/item";
 import {CategoryProvider} from "../../providers/database/category";
 import {ItemProvider} from "../../providers/database/item";
-import {LendOutProvider} from "../../providers/database/lendout";
-import {LendOut} from "../../models/lendout";
-import {UserProvider} from "../../providers/database/user";
-import {User} from "../../models/user";
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @Component({
   selector: 'page-item',
@@ -14,34 +11,15 @@ import {User} from "../../models/user";
 })
 export class ItemPage {
 
-  item: Item = new Item("", "", "");
-
-  history: LendOut[] = [];
-
-  users: User[] = [];
+  item: Item;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public categoryProvider: CategoryProvider,
               private itemProvider: ItemProvider,
-              private lendOutProvider: LendOutProvider,
-              public userProvider: UserProvider) {
+              private camera: Camera) {
     if (this.navParams.get("item")) {
       this.item = this.navParams.get("item");
-      //get all users
-      this.userProvider.users.subscribe((resp: User[]) => {
-        this.users = resp;
-      });
-      //get history
-      this.lendOutProvider.lendOuts.subscribe((resp: LendOut[]) => {
-        this.history = [];
-        for(let lendOut of resp) {
-          if (lendOut.itemId === this.item.$key) {
-            this.history.push(lendOut);
-          }
-        }
-        this.history.reverse();
-      });
     }
   }
 
@@ -57,14 +35,6 @@ export class ItemPage {
   remove() {
     this.itemProvider.deleteItem(this.item);
     this.navCtrl.pop();
-  }
-
-  findUser(key: string): User {
-    for (const user of this.users) {
-      if (user.$key === key) {
-        return user;
-      }
-    }
   }
 
 }

@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {ActionSheetController, NavController} from 'ionic-angular';
 import {Item} from "../../models/item";
-import {UserSelectPage} from "../user-select/user-select";
 import {LendOutProvider} from "../../providers/database/lendout";
 import {LendOut} from "../../models/lendout";
 
@@ -14,7 +13,7 @@ export class LendingPage {
   lendOuts: LendOut[]= [];
 
   constructor(public navCtrl: NavController, private lendOutProvider: LendOutProvider, public actionSheetCtrl: ActionSheetController) {
-    this.lendOutProvider.lendOuts.subscribe((resp: LendOut[]) => {
+    this.lendOutProvider.getLendoutsByItem('').subscribe((resp: LendOut[]) => {
       this.lendOuts = resp;
     });
   }
@@ -31,7 +30,7 @@ export class LendingPage {
     if (foundLendout) {
       this.presentActionSheet(item, foundLendout);
     } else {
-      this.navCtrl.push(UserSelectPage, {item: item});
+
     }
   }
 
