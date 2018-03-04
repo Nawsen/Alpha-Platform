@@ -7,7 +7,9 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title><ion-icon name="people"></ion-icon><span style="margin-left: 5px;">User: {{user.name}}</span></ion-title>
+    <ion-title>
+      <ion-icon name="people"></ion-icon>
+      <span style="margin-left: 5px;">User: {{user.name}}</span></ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,30 +18,30 @@
 <ion-content padding>
   <form (ngSubmit)="save()">
     <ion-item>
-      <ion-label>Name: </ion-label>
+      <ion-label>Name:</ion-label>
       <ion-input type="text" [(ngModel)]="user.name" name="name" required></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>SSIN: </ion-label>
+      <ion-label>SSIN:</ion-label>
       <ion-input type="text" [(ngModel)]="user.ssin" name="ssin" required></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Organization: </ion-label>
+      <ion-label>Organization:</ion-label>
       <ion-input type="text" [(ngModel)]="user.organization" name="organization" required></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Address: </ion-label>
+      <ion-label>Address:</ion-label>
       <ion-input type="text" [(ngModel)]="user.address" name="address"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Phone: </ion-label>
+      <ion-label>Phone:</ion-label>
       <ion-input type="text" [(ngModel)]="user.phone" name="phone" required></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>E-Mail: </ion-label>
+      <ion-label>E-Mail:</ion-label>
       <ion-input type="text" [(ngModel)]="user.email" name="email"></ion-input>
     </ion-item>
-    <br />
+    <br/>
     <button ion-button type="submit" block>Save</button>
     <br/>
     <button ion-button color="danger" type="button" (click)="remove()" *ngIf="user.$key" block>Delete</button>

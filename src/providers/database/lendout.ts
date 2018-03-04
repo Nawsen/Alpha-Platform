@@ -2,13 +2,12 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {Injectable} from "@angular/core";
 import {LendOut} from "../../models/lendout";
-import {AuthProvider} from "../auth/auth";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class LendOutProvider {
 
-  private LENDOUTS: string = '';
+  private LENDOUTS: string = '/lendOuts';
 
   private lendOutsByUser: Observable<LendOut[]>;
   private filterByUser: BehaviorSubject<string>;
@@ -17,7 +16,7 @@ export class LendOutProvider {
   private filterByItem: BehaviorSubject<string>;
 
 
-  constructor(private auth: AuthProvider, private db: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase) {
     this.filterByItem = new BehaviorSubject<string>('');
     this.filterByUser = new BehaviorSubject<string>('');
 
@@ -29,15 +28,12 @@ export class LendOutProvider {
       return this.lendOutsByItem;
     }
 
-    this.lendOutsByItem = this.auth.user
-      .map((user) => user.email.substring(0, user.email.indexOf('@')) + "/lendOuts")
-      .map((itemsUrl: string) => this.LENDOUTS = itemsUrl)
-      .flatMap(() => this.db.list(this.LENDOUTS, {
-        query: {
-          orderByChild: 'itemId',
-          equalTo: this.filterByItem
-        }
-      }));
+    this.lendOutsByItem = this.db.list(this.LENDOUTS, {
+      query: {
+        orderByChild: 'itemId',
+        equalTo: this.filterByItem
+      }
+    });
 
     return this.lendOutsByItem;
   }
@@ -48,15 +44,12 @@ export class LendOutProvider {
       return this.lendOutsByUser;
     }
 
-    this.lendOutsByUser = this.auth.user
-      .map((user) => user.email.substring(0, user.email.indexOf('@')) + "/lendOuts")
-      .map((itemsUrl: string) => this.LENDOUTS = itemsUrl)
-      .flatMap(() => this.db.list(this.LENDOUTS, {
-        query: {
-          orderByChild: 'userId',
-          equalTo: this.filterByUser
-        }
-      }));
+    this.lendOutsByUser = this.db.list(this.LENDOUTS, {
+      query: {
+        orderByChild: 'userId',
+        equalTo: this.filterByUser
+      }
+    });
 
     return this.lendOutsByUser;
   }

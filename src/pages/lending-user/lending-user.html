@@ -1,14 +1,16 @@
 <ion-header>
+
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <ion-icon name="home"></ion-icon>
-      <span style="margin-left: 5px;">Home</span></ion-title>
+      <ion-icon name="people"></ion-icon>
+      <span style="margin-left: 5px;">Users</span></ion-title>
   </ion-navbar>
+
 </ion-header>
 
 <ion-content padding>
-  <h3>Dashboard</h3>
+  <app-user-list (selectedEvent)="select($event)" [users]="users"></app-user-list>
 </ion-content>

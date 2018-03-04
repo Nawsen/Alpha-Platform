@@ -1,7 +1,6 @@
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Injectable} from "@angular/core";
 import {Item} from "../../models/item";
-import {AuthProvider} from "../auth/auth";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Observable} from "rxjs/Observable";
 
@@ -14,7 +13,7 @@ export class ItemProvider {
 
   private items: Observable<Item[]>;
 
-  constructor(private auth: AuthProvider, private db: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase) {
     //set the filter to nothing
     this.filter = new BehaviorSubject<string>('');
   }
@@ -24,10 +23,8 @@ export class ItemProvider {
     if (this.items) {
       return this.items;
     }
-    this.items = this.auth.user
-      .map((user) => user.email.substring(0, user.email.indexOf('@')) + this.ITEMS)
-      .map((itemsUrl: string) => this.ITEMS = itemsUrl)
-      .flatMap(() => this.db.list(this.ITEMS))
+    // noinspection TypeScriptUnresolvedFunction
+    this.items = <Observable<Item[]>>this.db.list(this.ITEMS)
       .combineLatest(this.filter, (items: Item[], filter: string) => this.doFilter(items, filter))
       .publishReplay().refCount();
     return this.items;
@@ -45,6 +42,10 @@ export class ItemProvider {
     this.db.list(this.ITEMS).remove(item.$key);
   }
 
+  setFilter(val: any): void {
+    this.filter.next(val);
+  }
+
   private doFilter(items: Item[], filter: string): Item[] {
     return items.filter(item => this.isValidByFilter(item, filter));
   }
@@ -54,7 +55,7 @@ export class ItemProvider {
       item.category.indexOf(filter) >= 0;
   }
 
-  setFilter(val: any): void {
-    this.filter.next(val);
+  public findItemById(key: string) {
+    return this.db.object(this.ITEMS + '/' + key);
   }
 }

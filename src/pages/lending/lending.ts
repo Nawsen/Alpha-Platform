@@ -10,7 +10,7 @@ import {LendOut} from "../../models/lendout";
 })
 export class LendingPage {
 
-  lendOuts: LendOut[]= [];
+  lendOuts: LendOut[] = [];
 
   constructor(public navCtrl: NavController, private lendOutProvider: LendOutProvider, public actionSheetCtrl: ActionSheetController) {
     this.lendOutProvider.getLendoutsByItem('').subscribe((resp: LendOut[]) => {

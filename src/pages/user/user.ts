@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
 import {User} from "../../models/user";
 import {UserProvider} from "../../providers/database/user";
 
@@ -9,7 +9,7 @@ import {UserProvider} from "../../providers/database/user";
 })
 export class UserPage {
 
-  user: User = new User("", "", "", "", "", "");
+  user: User = new User("", "", "", "", "", "", "", "");
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private userProvider: UserProvider) {
     if (this.navParams.get("user")) {

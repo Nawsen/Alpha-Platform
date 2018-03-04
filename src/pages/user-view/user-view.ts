@@ -3,21 +3,20 @@ import {LoadingController, NavController, NavParams} from 'ionic-angular';
 import {ItemProvider} from "../../providers/database/item";
 import {LendOutProvider} from "../../providers/database/lendout";
 import {CategoryProvider} from "../../providers/database/category";
-import {Item} from "../../models/item";
-import {ItemPage} from "../item/item";
 import {LendOut} from "../../models/lendout";
 import {UserProvider} from "../../providers/database/user";
 import {Observable} from "rxjs/Observable";
-import {LendingUserPage} from "../lending-user/lending-user";
-import {UserViewPage} from "../user-view/user-view";
+import {User} from "../../models/user";
+import {UserPage} from "../user/user";
+import {ItemViewPage} from "../item-view/item-view";
 
 @Component({
-  selector: 'page-item-view',
-  templateUrl: 'item-view.html',
+  selector: 'page-user-view',
+  templateUrl: 'user-view.html',
 })
-export class ItemViewPage {
+export class UserViewPage {
 
-  item: Item;
+  user: User;
 
   stock: boolean = true;
 
@@ -32,20 +31,20 @@ export class ItemViewPage {
               private lendOutProvider: LendOutProvider,
               private userProvider: UserProvider,
               public loadingCtrl: LoadingController) {
-    if (this.navParams.get("item")) {
-      this.item = this.navParams.get("item");
+    if (this.navParams.get("user")) {
+      this.user = this.navParams.get("user");
     }
-    if (this.navParams.get('itemId')) {
+    if (this.navParams.get("userId")) {
       const loading = this.loadingCtrl.create({
         content: 'Loading...'
       });
       loading.present();
-      this.itemProvider.findItemById(this.navParams.get('itemId')).subscribe(item => {
-        this.item = item;
+      this.userProvider.findUserById(this.navParams.get('userId')).subscribe(user => {
+        this.user = user;
         loading.dismiss();
       });
     }
-    this.lendOutProvider.getLendoutsByItem(this.item.$key)
+    this.lendOutProvider.getLendoutsByUser(this.user.$key)
       .map((data: LendOut[]) => data.sort((a, b) => a.checkOutTime > b.checkOutTime ? -1 : 1))
       .subscribe((resp: LendOut[]) => {
         this.history = resp;
@@ -55,33 +54,23 @@ export class ItemViewPage {
       });
   }
 
-  public lendoutItem(): void {
-    this.navCtrl.push(LendingUserPage, {item: this.item});
-  }
-
-  public returnItem(): void {
-    this.history[0].checkInTime = Date.now();
-    this.lendOutProvider.editLendOut(this.history[0])
-  }
-
   public openEdit(): void {
-    this.navCtrl.push(ItemPage, {item: this.item});
+    this.navCtrl.push(UserPage, {user: this.user});
   }
 
   public deleteItem(): void {
-    this.itemProvider.deleteItem(this.item);
+    this.userProvider.deleteUser(this.user);
     this.navCtrl.pop();
   }
 
-  public findUserNameById(key) {
+  public findItemNameById(key) {
     if (!this.names.get(key)) {
-      this.names.set(key, this.userProvider.findUserById(key).map(u => u.name));
+      this.names.set(key, this.itemProvider.findItemById(key).map(u => u.name));
     }
     return this.names.get(key);
   }
 
-  public goToUser(userId: string): void {
-    this.navCtrl.push(UserViewPage, {userId: userId});
+  public goToItem(itemId: string) {
+    this.navCtrl.push(ItemViewPage, {itemId: itemId});
   }
-
 }

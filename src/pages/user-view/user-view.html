@@ -2,8 +2,8 @@
 
   <ion-navbar>
     <ion-title>
-      <ion-icon name="pricetag"></ion-icon>
-      <span style="margin-left: 5px;">{{item.name}}</span>
+      <ion-icon name="people"></ion-icon>
+      <span style="margin-left: 5px;">{{user.name}}</span>
     </ion-title>
   </ion-navbar>
 
@@ -11,25 +11,20 @@
 
 
 <ion-content padding>
-  <img *ngIf="item.picture" id="profile-image" [src]="item.picture">
-  <img *ngIf="!item.picture" id="profile-image" src="assets/imgs/logo-zwart.png">
-  <h3 id="profile-name">{{item.name}}</h3>
-  <p>{{item.category}} - {{item.barcode}}</p>
+  <img *ngIf="user.picture" id="profile-image" [src]="user.picture">
+  <img *ngIf="!user.picture" id="profile-image" src="assets/imgs/logo-zwart.png">
+  <h3 id="profile-name">{{user.name}}</h3>
+  <p>{{user.organization}} - {{user.barcode}}</p>
   <hr/>
-
-  <ion-row>
-    <ion-col *ngIf="stock" col-12 ion-button (click)="lendoutItem()">Check out</ion-col>
-    <ion-col *ngIf="!stock" col-12 ion-button (click)="returnItem()">Check in</ion-col>
-  </ion-row>
 
   <div margin-top *ngIf="history.length > 0">
     <h2>History</h2>
     <ion-list>
-      <ion-item *ngFor="let lendOut of history" (click)="goToUser(lendOut.userId)">
+      <ion-item *ngFor="let lendOut of history" (click)="goToItem(lendOut.itemId)">
         <ion-avatar item-start>
           <img src="assets/imgs/logo-zwart.png">
         </ion-avatar>
-        <h2>{{findUserNameById(lendOut.userId) | async}}</h2>
+        <h2>{{findItemNameById(lendOut.itemId) | async}}</h2>
         <p>Checked out: {{lendOut.checkOutTime | date:'medium'}}</p>
         <p *ngIf="lendOut.checkInTime">Checked in: {{lendOut.checkInTime | date:'medium'}}</p>
         <ion-avatar item-end>
@@ -48,7 +43,7 @@
       <button ion-fab (click)="openEdit()">
         <ion-icon name="brush"></ion-icon>
       </button>
-      <button ion-fab (click)="deleteItem()">
+      <button ion-fab (click)="deleteUser()">
         <ion-icon name="trash"></ion-icon>
       </button>
     </ion-fab-list>

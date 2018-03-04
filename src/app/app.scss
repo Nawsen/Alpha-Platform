@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -16,16 +15,16 @@
 // automatically applied to the <body> element in the app.
 
 ion-menu {
-  max-width: 250px!important;
-  min-width: 0px!important;
+  max-width: 250px !important;
+  min-width: 0px !important;
 }
 
 .scroll-content {
   overflow: auto;
 }
 
-ion-menu{
-  ion-content{
+ion-menu {
+  ion-content {
     background-color: #2f4050 !important;
     ion-img {
       background-color: #2f4050;

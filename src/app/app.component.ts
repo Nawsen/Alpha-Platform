@@ -1,9 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {App, MenuController, Nav, Platform} from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
 
-import { HomePage } from '../pages/home/home';
+import {HomePage} from '../pages/home/home';
 import {AuthProvider} from "../providers/auth/auth";
 import {ItemManagementPage} from "../pages/item-management/item-management";
 import {UserManagementPage} from "../pages/user-management/user-management";
@@ -20,7 +20,7 @@ export class MyApp {
 
   enableSideMenu: boolean = false;
 
-  pages: Array<{title: string, component: any, icon: string}>;
+  pages: Array<{ title: string, component: any, icon: string }>;
 
   constructor(public app: App,
               public platform: Platform,
@@ -32,11 +32,11 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage, icon: 'home' },
+      {title: 'Home', component: HomePage, icon: 'home'},
       // { title: 'Lending', component: LendingPage, icon: 'repeat' },
-      { title: 'Item management', component: ItemManagementPage, icon: 'pricetags' },
-      { title: 'User management', component: UserManagementPage, icon: 'people' },
-      { title: 'Category management', component: CategoryManagementPage, icon: 'bookmark' }
+      {title: 'Item management', component: ItemManagementPage, icon: 'pricetags'},
+      {title: 'User management', component: UserManagementPage, icon: 'people'},
+      {title: 'Category management', component: CategoryManagementPage, icon: 'bookmark'}
     ];
 
   }

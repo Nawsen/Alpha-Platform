@@ -3,7 +3,6 @@ import {NavController, NavParams} from 'ionic-angular';
 import {Item} from "../../models/item";
 import {CategoryProvider} from "../../providers/database/category";
 import {ItemProvider} from "../../providers/database/item";
-import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @Component({
   selector: 'page-item',
@@ -16,8 +15,7 @@ export class ItemPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public categoryProvider: CategoryProvider,
-              private itemProvider: ItemProvider,
-              private camera: Camera) {
+              private itemProvider: ItemProvider) {
     if (this.navParams.get("item")) {
       this.item = this.navParams.get("item");
     }

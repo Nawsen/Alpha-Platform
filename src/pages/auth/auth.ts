@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, LoadingController} from 'ionic-angular';
-import {Validators, FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthProvider} from "../../providers/auth/auth";
 
 @IonicPage({

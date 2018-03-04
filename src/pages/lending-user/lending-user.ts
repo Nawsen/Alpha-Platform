@@ -1,22 +1,27 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LoadingController, NavController, NavParams} from 'ionic-angular';
 import {User} from "../../models/user";
+import {LendOutProvider} from "../../providers/database/lendout";
+import {LendOut} from "../../models/lendout";
+import {Item} from "../../models/item";
 import {UserProvider} from "../../providers/database/user";
-import {UserViewPage} from "../user-view/user-view";
 
 @Component({
-  selector: 'page-user-management',
-  templateUrl: 'user-management.html',
+  selector: 'page-lending-user',
+  templateUrl: 'lending-user.html',
 })
-export class UserManagementPage {
+export class LendingUserPage implements OnInit {
 
+  item: Item;
 
   users: User[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public lendoutProvider: LendOutProvider,
               public userProvider: UserProvider,
               public loadingCtrl: LoadingController) {
+    this.item = navParams.get('item');
   }
 
   ngOnInit(): void {
@@ -32,8 +37,8 @@ export class UserManagementPage {
   }
 
   public select(user: User): void {
-    this.navCtrl.push(UserViewPage, {user: user});
-
+    this.lendoutProvider.addNewLendOut(new LendOut(user.$key, this.item.$key, Date.now()));
+    this.navCtrl.pop();
   }
 
 }
