@@ -27,6 +27,7 @@ import {CategoryPage} from "../pages/category/category";
 import {ItemViewPage} from "../pages/item-view/item-view";
 import {LendingUserPage} from "../pages/lending-user/lending-user";
 import {UserViewPage} from "../pages/user-view/user-view";
+import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 
 var firebaseConfig = {
   apiKey: "AIzaSyD6--rws7Va0-tCWJMATEcvgTOvmBvLyoY",
@@ -85,7 +86,8 @@ var firebaseConfig = {
     ItemProvider,
     UserProvider,
     CategoryProvider,
-    LendOutProvider
+    LendOutProvider,
+    BarcodeScanner
   ]
 })
 export class AppModule {

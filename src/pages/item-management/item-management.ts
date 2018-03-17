@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {LoadingController, NavController, NavParams} from 'ionic-angular';
+import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {ItemProvider} from "../../providers/database/item";
 import {Item} from "../../models/item";
 import "rxjs";
 import {ItemViewPage} from "../item-view/item-view";
+import {BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult} from "@ionic-native/barcode-scanner";
 
 @Component({
   selector: 'page-item-management',
@@ -18,7 +19,9 @@ export class ItemManagementPage implements OnInit {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public itemService: ItemProvider,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              private barcodeScanner: BarcodeScanner,
+              public toastCtrl: ToastController) {
   }
 
   ngOnInit(): void {
@@ -40,5 +43,41 @@ export class ItemManagementPage implements OnInit {
   setFilter(event) {
     let val = event.target.value;
     this.itemService.setFilter(val);
+  }
+
+  scan() {
+    const barcodeOptions: BarcodeScannerOptions =  {
+      orientation: 'portrait'
+    };
+
+    this.barcodeScanner.scan(barcodeOptions).then((barcodeData: BarcodeScanResult) => {
+      console.log(barcodeData);
+      const scannedItem: Item = this.findItemForBarcode(barcodeData.text);
+      if (scannedItem) {
+        this.select(scannedItem);
+      } else {
+        let toast = this.toastCtrl.create({
+          message: 'Barcode was not found',
+          duration: 3000
+        });
+        toast.present();
+      }
+      barcodeData.text
+    }, (err) => {
+      let toast = this.toastCtrl.create({
+        message: err,
+        duration: 3000
+      });
+      toast.present();
+    });
+  }
+
+  private findItemForBarcode(barcode: string): Item | undefined {
+    for (const item of this.itemList) {
+      if (item.barcode === barcode){
+        return item;
+      }
+    }
+    return undefined;
   }
 }

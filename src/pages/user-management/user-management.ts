@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {LoadingController, NavController, NavParams} from 'ionic-angular';
+import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {User} from "../../models/user";
 import {UserProvider} from "../../providers/database/user";
 import {UserViewPage} from "../user-view/user-view";
+import {BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult} from "@ionic-native/barcode-scanner";
 
 @Component({
   selector: 'page-user-management',
@@ -16,7 +17,9 @@ export class UserManagementPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public userProvider: UserProvider,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              private barcodeScanner: BarcodeScanner,
+              public toastCtrl: ToastController) {
   }
 
   ngOnInit(): void {
@@ -35,5 +38,43 @@ export class UserManagementPage {
     this.navCtrl.push(UserViewPage, {user: user});
 
   }
+
+
+  scan() {
+    const barcodeOptions: BarcodeScannerOptions =  {
+      orientation: 'portrait'
+    };
+
+    this.barcodeScanner.scan(barcodeOptions).then((barcodeData: BarcodeScanResult) => {
+      console.log(barcodeData);
+      const scannedUser: User = this.findUserForBarcode(barcodeData.text);
+      if (scannedUser) {
+        this.select(scannedUser);
+      } else {
+        let toast = this.toastCtrl.create({
+          message: 'Barcode was not found',
+          duration: 3000
+        });
+        toast.present();
+      }
+      barcodeData.text
+    }, (err) => {
+      let toast = this.toastCtrl.create({
+        message: err,
+        duration: 3000
+      });
+      toast.present();
+    });
+  }
+
+  private findUserForBarcode(barcode: string): User | undefined {
+    for (const user of this.users) {
+      if (user.barcode === barcode){
+        return user;
+      }
+    }
+    return undefined;
+  }
+
 
 }
