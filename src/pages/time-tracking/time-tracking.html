@@ -1,0 +1,27 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>
+      <ion-icon name="clock"></ion-icon>
+      <span style="margin-left: 5px;">Time for: {{user.name}}</span></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form (ngSubmit)="save()">
+    <ion-item>
+      <ion-label>Date:</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="date" name="date"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Time:</ion-label>
+      <ion-datetime displayFormat="HH:mm" [(ngModel)]="date" name="date"></ion-datetime>
+    </ion-item>
+    <br/>
+    <button ion-button type="submit" block>Save</button>
+    <br/>
+    <button ion-button color="danger" type="button" (click)="remove()" *ngIf="timeTrack" block>Delete</button>
+  </form>
+</ion-content>

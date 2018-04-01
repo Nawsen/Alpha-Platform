@@ -9,6 +9,9 @@ import {Observable} from "rxjs/Observable";
 import {User} from "../../models/user";
 import {UserPage} from "../user/user";
 import {ItemViewPage} from "../item-view/item-view";
+import {TimeTrackingProvider} from "../../providers/database/time-tracking";
+import {TimeTrackingPage} from "../time-tracking/time-tracking";
+import {TimeTracking} from "../../models/time-tracking";
 
 @Component({
   selector: 'page-user-view',
@@ -16,11 +19,17 @@ import {ItemViewPage} from "../item-view/item-view";
 })
 export class UserViewPage {
 
+  tab: string = "items";
+
+  totalTimeWorked: number;
+
   user: User;
 
   stock: boolean = true;
 
   history: LendOut[] = [];
+
+  timeTrackings: TimeTracking[] = [];
 
   names: Map<string, Observable<any>> = new Map<string, Observable<any>>();
 
@@ -30,7 +39,8 @@ export class UserViewPage {
               private itemProvider: ItemProvider,
               private lendOutProvider: LendOutProvider,
               private userProvider: UserProvider,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              public timeTrackingProvider: TimeTrackingProvider) {
     if (this.navParams.get("user")) {
       this.user = this.navParams.get("user");
     }
@@ -51,6 +61,12 @@ export class UserViewPage {
         if (this.history[0]) {
           this.stock = !!this.history[0].checkInTime;
         }
+      });
+    this.timeTrackingProvider.getTrackingByUser(this.user.$key)
+      .map((data: TimeTracking[]) => data.sort((a, b) => a.time > b.time ? -1 : 1))
+      .subscribe((resp: TimeTracking[]) => {
+        this.timeTrackings = resp;
+        this.calculateTimeWorked();
       });
   }
 
@@ -73,4 +89,46 @@ export class UserViewPage {
   public goToItem(itemId: string) {
     this.navCtrl.push(ItemViewPage, {itemId: itemId});
   }
+
+  public addItemTracking(): void {
+    this.navCtrl.push(TimeTrackingPage, {user: this.user});
+  }
+
+  public getList() {
+    return this.timeTrackingProvider.getTrackingByUser(this.user.$key)
+  }
+
+  private calculateTimeWorked() {
+    const timeline: TimeTracking[] = this.timeTrackings.slice(0).reverse();
+    console.log(timeline);
+    this.totalTimeWorked = 0;
+    let lastTimeTrack: number = 0;
+    for( let timeTrack of timeline) {
+      if (lastTimeTrack !== 0) {
+        this.totalTimeWorked = this.totalTimeWorked + (timeTrack.time - lastTimeTrack);
+        lastTimeTrack = 0;
+      } else {
+        lastTimeTrack = timeTrack.time
+      }
+    }
+  }
+
+  public convertMillisToTime(milliseconds){
+    //Get hours from milliseconds
+    var hours = milliseconds / (1000*60*60);
+    var absoluteHours = Math.floor(hours);
+    var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+
+    //Get remainder from hours and convert to minutes
+    var minutes = (hours - absoluteHours) * 60;
+    var absoluteMinutes = Math.floor(minutes);
+    var m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
+
+    return h + 'h ' + m + 'm';
+  }
+
+  public editTime(timeTrack: TimeTracking) {
+    this.navCtrl.push(TimeTrackingPage, {user: this.user, timetrack: timeTrack});
+  }
+
 }

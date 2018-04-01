@@ -28,6 +28,8 @@ import {ItemViewPage} from "../pages/item-view/item-view";
 import {LendingUserPage} from "../pages/lending-user/lending-user";
 import {UserViewPage} from "../pages/user-view/user-view";
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
+import {TimeTrackingProvider} from "../providers/database/time-tracking";
+import {TimeTrackingPage} from "../pages/time-tracking/time-tracking";
 
 var firebaseConfig = {
   apiKey: "AIzaSyD6--rws7Va0-tCWJMATEcvgTOvmBvLyoY",
@@ -51,7 +53,8 @@ var firebaseConfig = {
     CategoryPage,
     ItemViewPage,
     LendingUserPage,
-    UserViewPage
+    UserViewPage,
+    TimeTrackingPage
   ],
   imports: [
     BrowserModule,
@@ -76,7 +79,8 @@ var firebaseConfig = {
     CategoryPage,
     ItemViewPage,
     LendingUserPage,
-    UserViewPage
+    UserViewPage,
+    TimeTrackingPage
   ],
   providers: [
     StatusBar,
@@ -87,6 +91,7 @@ var firebaseConfig = {
     UserProvider,
     CategoryProvider,
     LendOutProvider,
+    TimeTrackingProvider,
     BarcodeScanner
   ]
 })

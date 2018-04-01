@@ -4,13 +4,13 @@ import {User} from "../../models/user";
 import {UserProvider} from "../../providers/database/user";
 import {UserViewPage} from "../user-view/user-view";
 import {BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult} from "@ionic-native/barcode-scanner";
+import {UserPage} from "../user/user";
 
 @Component({
   selector: 'page-user-management',
   templateUrl: 'user-management.html',
 })
 export class UserManagementPage {
-
 
   users: User[];
 
@@ -74,6 +74,10 @@ export class UserManagementPage {
       }
     }
     return undefined;
+  }
+
+  public add(): void {
+    this.navCtrl.push(UserPage)
   }
 
 

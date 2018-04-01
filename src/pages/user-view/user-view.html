@@ -10,29 +10,56 @@
 </ion-header>
 
 
-<ion-content padding>
-  <img *ngIf="user.picture" id="profile-image" [src]="user.picture">
-  <img *ngIf="!user.picture" id="profile-image" src="assets/imgs/logo-zwart.png">
-  <h3 id="profile-name">{{user.name}}</h3>
-  <p>{{user.organization}} - {{user.barcode}}</p>
-  <hr/>
+<ion-content>
+  <div padding>
+    <img *ngIf="user.picture" id="profile-image" [src]="user.picture">
+    <img *ngIf="!user.picture" id="profile-image" src="assets/imgs/logo-zwart.png">
+    <h3 id="profile-name">{{user.name}}</h3>
+    <p>{{user.organization}} - {{user.barcode}}</p>
+    <p>Time worked: {{convertMillisToTime(totalTimeWorked)}}</p>
+    <hr/>
+  </div>
+  <div>
+    <ion-segment [(ngModel)]="tab">
+      <ion-segment-button value="items">
+        Item history
+      </ion-segment-button>
+      <ion-segment-button value="time">
+        Time tracking
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
-  <div margin-top *ngIf="history.length > 0">
-    <h2>History</h2>
-    <ion-list>
-      <ion-item *ngFor="let lendOut of history" (click)="goToItem(lendOut.itemId)">
-        <ion-avatar item-start>
-          <img src="assets/imgs/logo-zwart.png">
-        </ion-avatar>
-        <h2>{{findItemNameById(lendOut.itemId) | async}}</h2>
-        <p>Checked out: {{lendOut.checkOutTime | date:'medium'}}</p>
-        <p *ngIf="lendOut.checkInTime">Checked in: {{lendOut.checkInTime | date:'medium'}}</p>
-        <ion-avatar item-end>
-          <img *ngIf="lendOut.checkInTime" src="assets/imgs/ok.png">
-          <img *ngIf="!lendOut.checkInTime" src="assets/imgs/nok.png">
-        </ion-avatar>
-      </ion-item>
-    </ion-list>
+  <div [ngSwitch]="tab">
+    <div margin-top *ngSwitchCase="'items'">
+      <ion-list>
+        <ion-item *ngFor="let lendOut of history" (click)="goToItem(lendOut.itemId)">
+          <ion-avatar item-start>
+            <img src="assets/imgs/logo-zwart.png">
+          </ion-avatar>
+          <h2>{{findItemNameById(lendOut.itemId) | async}}</h2>
+          <p>Checked out: {{lendOut.checkOutTime | date:'medium'}}</p>
+          <p *ngIf="lendOut.checkInTime">Checked in: {{lendOut.checkInTime | date:'medium'}}</p>
+          <ion-avatar item-end>
+            <img *ngIf="lendOut.checkInTime" src="assets/imgs/ok.png">
+            <img *ngIf="!lendOut.checkInTime" src="assets/imgs/nok.png">
+          </ion-avatar>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div *ngSwitchCase="'time'">
+
+      <ion-list>
+        <ion-item (click)="addItemTracking()">Add new time</ion-item>
+        <ion-item *ngFor="let track of timeTrackings; let i = index" [ngClass]="{ odd: (i - timeTrackings.length) % 2 === 0, even: (i - timeTrackings.length) % 2 !== 0 }"
+        (click)="editTime(track)">
+          <span *ngIf="(i - timeTrackings.length) % 2 === 0"><ion-icon name="log-out"></ion-icon> </span>
+          <span *ngIf="(i - timeTrackings.length) % 2 !== 0"><ion-icon name="log-in"></ion-icon> </span>
+           {{track.time | date:'dd/MM/yyyy, HH:mm'}}
+        </ion-item>
+      </ion-list>
+    </div>
   </div>
 
   <ion-fab right bottom>
