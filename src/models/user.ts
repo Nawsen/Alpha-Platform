@@ -9,9 +9,10 @@ export class User {
   email: string;
   picture: string;
   barcode: string;
+  zones: string;
 
 
-  constructor(name: string, ssin: string, organization: string, address: string, phone: string, email: string, picture: string, barcode: string) {
+  constructor(name: string, ssin: string, organization: string, address: string, phone: string, email: string, picture: string, barcode: string, zones: string) {
     this.name = name;
     this.ssin = ssin;
     this.organization = organization;
@@ -20,5 +21,6 @@ export class User {
     this.email = email;
     this.picture = picture;
     this.barcode = barcode;
+    this.zones = zones;
   }
 }

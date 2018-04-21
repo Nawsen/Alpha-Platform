@@ -83,6 +83,6 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.16" />
     <plugin name="cordova-plugin-camera" spec="^4.0.2" />
     <plugin name="cordova-plugin-barcodescanner" spec="~0.7.4" />
-    <engine name="android" spec="6.3.0" />
     <allow-navigation href="http://192.168.0.117:8100" />
+    <engine name="android" spec="6.3.0" />
 </widget>

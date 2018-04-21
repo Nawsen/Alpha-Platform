@@ -13,6 +13,8 @@ import {TimeTrackingProvider} from "../../providers/database/time-tracking";
 import {TimeTrackingPage} from "../time-tracking/time-tracking";
 import {TimeTracking} from "../../models/time-tracking";
 
+declare var BrowserPrint: any;
+
 @Component({
   selector: 'page-user-view',
   templateUrl: 'user-view.html',
@@ -129,6 +131,20 @@ export class UserViewPage {
 
   public editTime(timeTrack: TimeTracking) {
     this.navCtrl.push(TimeTrackingPage, {user: this.user, timetrack: timeTrack});
+  }
+
+  public print() {
+    BrowserPrint.getDefaultDevice("printer", (device) => {
+      device.send(`^XA
+        ^FO20,700^XGE:LOGO.GRF^FS
+        ^FO225,1100^ADR,54,30^FD${this.user.name}^FS
+        ^FO80,1100^BY5^B3R,N,120,Y,N^FD${this.user.barcode}^FS
+        ^FO225,2000^ADR,54,30^FD${this.user.organization}^FS
+        ^FO50,2000^ADR,54,30^FD${this.user.zones}^FS
+        ^XZ`, undefined, undefined);
+    }, (error) => {
+      alert(error);
+    });
   }
 
 }
