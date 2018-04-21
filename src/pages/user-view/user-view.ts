@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {LoadingController, NavController, NavParams} from 'ionic-angular';
+import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {ItemProvider} from "../../providers/database/item";
 import {LendOutProvider} from "../../providers/database/lendout";
 import {CategoryProvider} from "../../providers/database/category";
@@ -42,20 +42,57 @@ export class UserViewPage {
               private lendOutProvider: LendOutProvider,
               private userProvider: UserProvider,
               public loadingCtrl: LoadingController,
-              public timeTrackingProvider: TimeTrackingProvider) {
+              public timeTrackingProvider: TimeTrackingProvider,
+              public toastCtrl: ToastController) {
     if (this.navParams.get("user")) {
       this.user = this.navParams.get("user");
+      this.getLendOuts();
+      this.getTrackingByUser();
     }
     if (this.navParams.get("userId")) {
       const loading = this.loadingCtrl.create({
         content: 'Loading...'
       });
-      loading.present();
-      this.userProvider.findUserById(this.navParams.get('userId')).subscribe(user => {
-        this.user = user;
-        loading.dismiss();
+      loading.present().then(() => {
+        this.userProvider.findUserById(this.navParams.get('userId')).subscribe(user => {
+          this.user = user;
+          this.getLendOuts();
+          this.getTrackingByUser();
+          loading.dismiss();
+        });
       });
     }
+    if (this.navParams.get('barcode')) {
+      const loading = this.loadingCtrl.create({
+        content: 'Loading...'
+      });
+      loading.present().then(() => {
+        this.userProvider.findByBarcode(this.navParams.get('barcode'))
+          .map((users: User[]) => users[0])
+          .subscribe(user => {
+            if (!user) {
+              let toast = this.toastCtrl.create({
+                message: 'Barcode was not found',
+                duration: 3000
+              });
+              toast.present();
+              loading.dismiss();
+              this.navCtrl.pop();
+              return;
+            }
+            this.user = user;
+
+            this.getLendOuts();
+            this.getTrackingByUser();
+            loading.dismiss();
+          });
+      });
+    }
+
+
+  }
+
+  private getLendOuts() {
     this.lendOutProvider.getLendoutsByUser(this.user.$key)
       .map((data: LendOut[]) => data.sort((a, b) => a.checkOutTime > b.checkOutTime ? -1 : 1))
       .subscribe((resp: LendOut[]) => {
@@ -64,6 +101,9 @@ export class UserViewPage {
           this.stock = !!this.history[0].checkInTime;
         }
       });
+  }
+
+  private getTrackingByUser() {
     this.timeTrackingProvider.getTrackingByUser(this.user.$key)
       .map((data: TimeTracking[]) => data.sort((a, b) => a.time > b.time ? -1 : 1))
       .subscribe((resp: TimeTracking[]) => {
@@ -102,7 +142,6 @@ export class UserViewPage {
 
   private calculateTimeWorked() {
     const timeline: TimeTracking[] = this.timeTrackings.slice(0).reverse();
-    console.log(timeline);
     this.totalTimeWorked = 0;
     let lastTimeTrack: number = 0;
     for( let timeTrack of timeline) {
@@ -138,7 +177,7 @@ export class UserViewPage {
       device.send(`^XA
         ^FO20,700^XGE:LOGO.GRF^FS
         ^FO225,1100^ADR,54,30^FD${this.user.name}^FS
-        ^FO80,1100^BY5^B3R,N,120,Y,N^FD${this.user.barcode}^FS
+        ^FO80,1100^BY5^B3R,N,120,Y,N^FDU${this.user.barcode}^FS
         ^FO225,2000^ADR,54,30^FD${this.user.organization}^FS
         ^FO50,2000^ADR,54,30^FD${this.user.zones}^FS
         ^XZ`, undefined, undefined);

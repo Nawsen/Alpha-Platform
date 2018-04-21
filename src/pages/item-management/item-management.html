@@ -23,6 +23,6 @@
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
-  <ion-searchbar (ionInput)="setFilter($event)"></ion-searchbar>
+  <ion-searchbar (ionInput)="setFilter($event)" (ionClear)="clearFilter()"></ion-searchbar>
   <app-item-list *ngIf="itemList" (selectedEvent)="select($event)" [items]="itemList"></app-item-list>
 </ion-content>

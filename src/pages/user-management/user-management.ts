@@ -26,10 +26,13 @@ export class UserManagementPage {
     const loading = this.loadingCtrl.create({
       content: 'Loading...'
     });
-    loading.present();
-    this.userProvider.userList.subscribe((users: User[]) => {
-      loading.dismiss();
-      this.users = users;
+    loading.present().then(() => {
+      this.userProvider.setFilter('');
+      this.userProvider.findByBarcode('');
+      this.userProvider.userList.subscribe((users: User[]) => {
+        loading.dismiss();
+        this.users = users;
+      });
     });
 
   }

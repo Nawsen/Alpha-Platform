@@ -3,7 +3,7 @@
   <ion-navbar>
     <ion-title>
       <ion-icon name="people"></ion-icon>
-      <span style="margin-left: 5px;">{{user.name}}</span>
+      <span style="margin-left: 5px;">{{user?.name}}</span>
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="print()">
@@ -16,9 +16,10 @@
 
 
 <ion-content>
+  <span *ngIf="user">
   <div padding>
     <img *ngIf="user.picture" id="profile-image" [src]="user.picture">
-    <img *ngIf="!user.picture" id="profile-image" src="assets/imgs/logo-zwart.png">
+    <img *ngIf="!user.picture" id="profile-image" src="assets/imgs/avatar.png">
     <h3 id="profile-name">{{user.name}}</h3>
     <p>{{user.organization}} - {{user.barcode}}</p>
     <p>Time worked: {{convertMillisToTime(totalTimeWorked)}}</p>
@@ -57,8 +58,9 @@
 
       <ion-list>
         <ion-item (click)="addItemTracking()">Add new time</ion-item>
-        <ion-item *ngFor="let track of timeTrackings; let i = index" [ngClass]="{ odd: (i - timeTrackings.length) % 2 === 0, even: (i - timeTrackings.length) % 2 !== 0 }"
-        (click)="editTime(track)">
+        <ion-item *ngFor="let track of timeTrackings; let i = index"
+                  [ngClass]="{ odd: (i - timeTrackings.length) % 2 === 0, even: (i - timeTrackings.length) % 2 !== 0 }"
+                  (click)="editTime(track)">
           <span *ngIf="(i - timeTrackings.length) % 2 === 0"><ion-icon name="log-out"></ion-icon> </span>
           <span *ngIf="(i - timeTrackings.length) % 2 !== 0"><ion-icon name="log-in"></ion-icon> </span>
            {{track.time | date:'dd/MM/yyyy, HH:mm'}}
@@ -67,18 +69,18 @@
     </div>
   </div>
 
-  <ion-fab right bottom>
-    <button ion-fab color="sidemenu">
-      <ion-icon name="arrow-dropleft"></ion-icon>
-    </button>
-    <ion-fab-list side="left">
-      <button ion-fab (click)="openEdit()">
-        <ion-icon name="brush"></ion-icon>
-      </button>
-      <button ion-fab (click)="deleteUser()">
-        <ion-icon name="trash"></ion-icon>
-      </button>
-    </ion-fab-list>
-  </ion-fab>
-
+</span>
 </ion-content>
+<ion-fab right bottom>
+  <button ion-fab color="sidemenu">
+    <ion-icon name="arrow-dropleft"></ion-icon>
+  </button>
+  <ion-fab-list side="left">
+    <button ion-fab (click)="openEdit()">
+      <ion-icon name="brush"></ion-icon>
+    </button>
+    <button ion-fab (click)="deleteUser()">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+  </ion-fab-list>
+</ion-fab>

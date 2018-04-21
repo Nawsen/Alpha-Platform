@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, HostListener, ViewChild} from '@angular/core';
 import {App, MenuController, Nav, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
@@ -9,6 +9,8 @@ import {ItemManagementPage} from "../pages/item-management/item-management";
 import {UserManagementPage} from "../pages/user-management/user-management";
 import {AuthPage} from "../pages/auth/auth";
 import {CategoryManagementPage} from "../pages/category-management/category-management";
+import {ItemViewPage} from "../pages/item-view/item-view";
+import {UserViewPage} from "../pages/user-view/user-view";
 
 @Component({
   templateUrl: 'app.html'
@@ -21,6 +23,34 @@ export class MyApp {
   enableSideMenu: boolean = false;
 
   pages: Array<{ title: string, component: any, icon: string }>;
+
+  activeScan: Scan = {started: false, startTime: 0, stack: ''};
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event) {
+    if (!this.enableSideMenu){
+      return;
+    }
+    if (event.code === 'ShiftLeft') {
+      this.activeScan.started = true;
+      this.activeScan.startTime = new Date().getTime();
+      return;
+    }
+    if (this.activeScan.started && event.key === 'Enter' && (new Date().getTime() - this.activeScan.startTime < 500)) {
+      console.log('scanned');
+      if (this.activeScan.stack.startsWith('I')) {
+        this.nav.push(ItemViewPage, {barcode: this.activeScan.stack});
+      }
+      if (this.activeScan.stack.startsWith('U')) {
+        this.nav.push(UserViewPage, {barcode: this.activeScan.stack.substr(1)});
+      }
+      this.activeScan = {started: false, startTime: 0, stack: ''};
+      return;
+    }
+    if (this.activeScan.started) {
+      this.activeScan.stack += event.key;
+    }
+  }
 
   constructor(public app: App,
               public platform: Platform,
@@ -75,4 +105,10 @@ export class MyApp {
     this.auth.logout();
   }
 
+}
+
+export interface Scan {
+  started: boolean;
+  startTime: number;
+  stack: string;
 }

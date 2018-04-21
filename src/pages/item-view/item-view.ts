@@ -39,10 +39,11 @@ export class ItemViewPage {
       const loading = this.loadingCtrl.create({
         content: 'Loading...'
       });
-      loading.present();
-      this.itemProvider.findItemById(this.navParams.get('itemId')).subscribe(item => {
-        this.item = item;
-        loading.dismiss();
+      loading.present().then(() => {
+        this.itemProvider.findItemById(this.navParams.get('itemId')).subscribe(item => {
+          this.item = item;
+          loading.dismiss();
+        });
       });
     }
     this.lendOutProvider.getLendoutsByItem(this.item.$key)

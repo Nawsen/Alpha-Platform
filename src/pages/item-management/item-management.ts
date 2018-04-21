@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {ItemProvider} from "../../providers/database/item";
 import {Item} from "../../models/item";
@@ -28,10 +28,11 @@ export class ItemManagementPage implements OnInit {
     const loading = this.loadingCtrl.create({
       content: 'Loading...'
     });
-    loading.present();
-    this.itemService.itemList.subscribe((items: Item[]) => {
-      loading.dismiss();
-      this.itemList = items;
+    loading.present().then(() => {
+      this.itemService.itemList.subscribe((items: Item[]) => {
+        loading.dismiss();
+        this.itemList = items;
+      });
     });
 
   }
@@ -42,7 +43,14 @@ export class ItemManagementPage implements OnInit {
 
   setFilter(event) {
     let val = event.target.value;
-    this.itemService.setFilter(val);
+    if (val) {
+      this.itemService.setFilter(val);
+    }
+  }
+
+  clearFilter() {
+    console.log('reset');
+    this.itemService.setFilter('');
   }
 
   scan() {

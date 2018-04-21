@@ -18,6 +18,14 @@ export class UserProvider {
     this.filter = new BehaviorSubject<string>('');
   }
 
+  findByBarcode(barcode: string): Observable<User[]> {
+    return (<Observable<User[]>>this.db.list(this.USERS, {
+      query: {
+        orderByChild: 'barcode',
+        equalTo: barcode
+      }
+    }))
+  }
 
   get userList(): Observable<User[]> {
     if (this.users) {
@@ -59,6 +67,7 @@ export class UserProvider {
       user.organization.indexOf(filter) >= 0 ||
       user.address.indexOf(filter) >= 0 ||
       user.email.indexOf(filter) >= 0 ||
+      (user.barcode && user.barcode.indexOf(filter) >= 0) ||
       user.ssin.indexOf(filter) >= 0;
   }
 }
