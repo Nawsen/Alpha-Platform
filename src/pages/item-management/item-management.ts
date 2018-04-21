@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {ItemProvider} from "../../providers/database/item";
 import {Item} from "../../models/item";
@@ -49,7 +49,6 @@ export class ItemManagementPage implements OnInit {
   }
 
   clearFilter() {
-    console.log('reset');
     this.itemService.setFilter('');
   }
 

@@ -18,6 +18,14 @@ export class ItemProvider {
     this.filter = new BehaviorSubject<string>('');
   }
 
+  findByBarcode(barcode: string): Observable<Item[]> {
+    return (<Observable<Item[]>>this.db.list(this.ITEMS, {
+      query: {
+        orderByChild: 'barcode',
+        equalTo: barcode
+      }
+    }))
+  }
 
   get itemList(): Observable<Item[]> {
     if (this.items) {

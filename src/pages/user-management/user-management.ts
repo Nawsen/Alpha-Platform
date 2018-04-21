@@ -42,6 +42,17 @@ export class UserManagementPage {
 
   }
 
+  setFilter(event) {
+    let val = event.target.value;
+    if (val) {
+      this.userProvider.setFilter(val);
+    }
+  }
+
+  clearFilter() {
+    this.userProvider.setFilter('');
+  }
+
 
   scan() {
     const barcodeOptions: BarcodeScannerOptions =  {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {User} from "../../models/user";
 import {LendOutProvider} from "../../providers/database/lendout";
@@ -6,12 +6,43 @@ import {LendOut} from "../../models/lendout";
 import {Item} from "../../models/item";
 import {UserProvider} from "../../providers/database/user";
 import {BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult} from "@ionic-native/barcode-scanner";
+import {Scan} from "../../app/app.component";
 
 @Component({
   selector: 'page-lending-user',
   templateUrl: 'lending-user.html',
 })
 export class LendingUserPage implements OnInit {
+
+  activeScan: Scan = {started: false, startTime: 0, stack: ''};
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event) {
+    if (event.code === 'ShiftLeft') {
+      this.activeScan.started = true;
+      this.activeScan.startTime = new Date().getTime();
+      return;
+    }
+    if (this.activeScan.started && event.key === 'Enter' && (new Date().getTime() - this.activeScan.startTime < 500)) {
+      if (this.activeScan.stack.startsWith('U')) {
+        const scannedUser: User = this.findUserForBarcode(this.activeScan.stack.substr(1));
+        if (scannedUser) {
+          this.select(scannedUser);
+        } else {
+          let toast = this.toastCtrl.create({
+            message: 'Barcode was not found',
+            duration: 3000
+          });
+          toast.present();
+        }
+      }
+      this.activeScan = {started: false, startTime: 0, stack: ''};
+      return;
+    }
+    if (this.activeScan.started) {
+      this.activeScan.stack += event.key;
+    }
+  }
 
   item: Item;
 
@@ -71,6 +102,8 @@ export class LendingUserPage implements OnInit {
       toast.present();
     });
   }
+
+
 
   private findUserForBarcode(barcode: string): User | undefined {
     for (const user of this.users) {

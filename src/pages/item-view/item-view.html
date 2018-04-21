@@ -3,7 +3,7 @@
   <ion-navbar>
     <ion-title>
       <ion-icon name="pricetag"></ion-icon>
-      <span style="margin-left: 5px;">{{item.name}}</span>
+      <span style="margin-left: 5px;">{{item?.name}}</span>
     </ion-title>
   </ion-navbar>
 
@@ -11,6 +11,7 @@
 
 
 <ion-content padding>
+  <span *ngIf="item">
   <img *ngIf="item.picture" id="profile-image" [src]="item.picture">
   <img *ngIf="!item.picture" id="profile-image" src="assets/imgs/logo-zwart.png">
   <h3 id="profile-name">{{item.name}}</h3>
@@ -40,18 +41,19 @@
     </ion-list>
   </div>
 
-  <ion-fab right bottom>
-    <button ion-fab color="sidemenu">
-      <ion-icon name="arrow-dropleft"></ion-icon>
-    </button>
-    <ion-fab-list side="left">
-      <button ion-fab (click)="openEdit()">
-        <ion-icon name="brush"></ion-icon>
-      </button>
-      <button ion-fab (click)="deleteItem()">
-        <ion-icon name="trash"></ion-icon>
-      </button>
-    </ion-fab-list>
-  </ion-fab>
-
+</span>
 </ion-content>
+
+<ion-fab right bottom>
+  <button ion-fab color="sidemenu">
+    <ion-icon name="arrow-dropleft"></ion-icon>
+  </button>
+  <ion-fab-list side="left">
+    <button ion-fab (click)="openEdit()">
+      <ion-icon name="brush"></ion-icon>
+    </button>
+    <button ion-fab (click)="deleteItem()">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+  </ion-fab-list>
+</ion-fab>

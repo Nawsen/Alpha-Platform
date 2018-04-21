@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {LoadingController, NavController, NavParams} from 'ionic-angular';
+import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {ItemProvider} from "../../providers/database/item";
 import {LendOutProvider} from "../../providers/database/lendout";
 import {CategoryProvider} from "../../providers/database/category";
@@ -31,9 +31,11 @@ export class ItemViewPage {
               private itemProvider: ItemProvider,
               private lendOutProvider: LendOutProvider,
               private userProvider: UserProvider,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              public toastCtrl: ToastController) {
     if (this.navParams.get("item")) {
       this.item = this.navParams.get("item");
+      this.getLendouts();
     }
     if (this.navParams.get('itemId')) {
       const loading = this.loadingCtrl.create({
@@ -42,10 +44,39 @@ export class ItemViewPage {
       loading.present().then(() => {
         this.itemProvider.findItemById(this.navParams.get('itemId')).subscribe(item => {
           this.item = item;
+          this.getLendouts();
           loading.dismiss();
         });
       });
     }
+    if (this.navParams.get('barcode')) {
+      const loading = this.loadingCtrl.create({
+        content: 'Loading...'
+      });
+      loading.present().then(() => {
+        this.itemProvider.findByBarcode(this.navParams.get('barcode'))
+          .map((items: Item[]) => items[0])
+          .subscribe(item => {
+            if (!item) {
+              let toast = this.toastCtrl.create({
+                message: 'Barcode was not found',
+                duration: 3000
+              });
+              toast.present();
+              loading.dismiss();
+              this.navCtrl.pop();
+              return;
+            }
+            this.item = item;
+
+            this.getLendouts();
+            loading.dismiss();
+          });
+      });
+    }
+  }
+
+  private getLendouts() {
     this.lendOutProvider.getLendoutsByItem(this.item.$key)
       .map((data: LendOut[]) => data.sort((a, b) => a.checkOutTime > b.checkOutTime ? -1 : 1))
       .subscribe((resp: LendOut[]) => {

@@ -28,7 +28,7 @@ export class MyApp {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event) {
-    if (!this.enableSideMenu){
+    if (!this.enableSideMenu || this.nav.getActive().name === 'LendingUserPage'){
       return;
     }
     if (event.code === 'ShiftLeft') {
@@ -37,9 +37,8 @@ export class MyApp {
       return;
     }
     if (this.activeScan.started && event.key === 'Enter' && (new Date().getTime() - this.activeScan.startTime < 500)) {
-      console.log('scanned');
       if (this.activeScan.stack.startsWith('I')) {
-        this.nav.push(ItemViewPage, {barcode: this.activeScan.stack});
+        this.nav.push(ItemViewPage, {barcode: this.activeScan.stack.substr(1)});
       }
       if (this.activeScan.stack.startsWith('U')) {
         this.nav.push(UserViewPage, {barcode: this.activeScan.stack.substr(1)});
