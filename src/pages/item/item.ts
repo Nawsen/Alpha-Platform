@@ -10,7 +10,7 @@ import {ItemProvider} from "../../providers/database/item";
 })
 export class ItemPage {
 
-  item: Item;
+  item: Item = new Item('', '', '', '');
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -33,6 +33,10 @@ export class ItemPage {
   remove() {
     this.itemProvider.deleteItem(this.item);
     this.navCtrl.pop();
+  }
+
+  generateNewBarcode(): void {
+    this.item.barcode = Math.floor(Math.random() * 1000000).toString();
   }
 
 }

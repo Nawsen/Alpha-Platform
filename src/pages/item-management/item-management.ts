@@ -5,6 +5,7 @@ import {Item} from "../../models/item";
 import "rxjs";
 import {ItemViewPage} from "../item-view/item-view";
 import {BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult} from "@ionic-native/barcode-scanner";
+import {ItemPage} from "../item/item";
 
 @Component({
   selector: 'page-item-management',
@@ -87,4 +88,9 @@ export class ItemManagementPage implements OnInit {
     }
     return undefined;
   }
+
+  public add(): void {
+    this.navCtrl.push(ItemPage)
+  }
+
 }

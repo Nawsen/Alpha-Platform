@@ -26,6 +26,7 @@
     <ion-item>
       <ion-label>Barcode:</ion-label>
       <ion-input type="text" [(ngModel)]="item.barcode" name="barcode"></ion-input>
+      <button type="button" clear item-right (click)="generateNewBarcode()">Generate</button>
     </ion-item>
     <br/>
     <button ion-button type="submit" block>Save</button>

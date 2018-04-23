@@ -30,4 +30,8 @@ export class UserPage {
     this.userProvider.deleteUser(this.user);
     this.navCtrl.pop();
   }
+
+  generateNewBarcode(): void {
+    this.user.barcode = Math.floor(Math.random() * 1000000).toString();
+  }
 }

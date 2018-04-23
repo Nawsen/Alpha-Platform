@@ -44,6 +44,7 @@
     <ion-item>
       <ion-label>Barcode:</ion-label>
       <ion-input type="text" [(ngModel)]="user.barcode" name="barcode"></ion-input>
+      <button type="button" clear item-right (click)="generateNewBarcode()">Generate</button>
     </ion-item>
     <ion-item>
       <ion-label>Zones:</ion-label>

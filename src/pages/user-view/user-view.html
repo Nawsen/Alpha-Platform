@@ -21,7 +21,7 @@
     <img *ngIf="user.picture" id="profile-image" [src]="user.picture">
     <img *ngIf="!user.picture" id="profile-image" src="assets/imgs/avatar.png">
     <h3 id="profile-name">{{user.name}}</h3>
-    <p>{{user.organization}} - {{user.barcode}}</p>
+    <p>{{user.organization}} - U{{user.barcode}}</p>
     <p>Time worked: {{convertMillisToTime(totalTimeWorked)}}</p>
     <hr/>
   </div>
